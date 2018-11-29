@@ -43,8 +43,8 @@ include(SRSLTEPackage) #setup cpack
 include(CTest)
 
 configure_file(
-    "${CMAKE_CURRENT_SOURCE_DIR}/CTestCustom.cmake.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/CTestCustom.cmake"
+    "${PROJECT_SOURCE_DIR}/CTestCustom.cmake.in"
+    "${PROJECT_BINARY_DIR}/CTestCustom.cmake"
     IMMEDIATE @ONLY)
 
 if(NOT CMAKE_BUILD_TYPE)
@@ -55,8 +55,8 @@ set(CMAKE_BUILD_TYPE ${CMAKE_BUILD_TYPE} CACHE STRING "")
 
 # Generate CMake to include build information
 configure_file(
-  ${CMAKE_SOURCE_DIR}/cmake/modules/SRSLTEbuildinfo.cmake.in
-  ${CMAKE_BINARY_DIR}/SRSLTEbuildinfo.cmake
+  ${PROJECT_SOURCE_DIR}/cmake/modules/SRSLTEbuildinfo.cmake.in
+  ${PROJECT_BINARY_DIR}/SRSLTEbuildinfo.cmake
 )
 
 ########################################################################
@@ -237,10 +237,10 @@ set(DATA_DIR share/${CPACK_PACKAGE_NAME})
 
 # Auto-generate config install helper and mark for installation
 configure_file(
-        ${CMAKE_SOURCE_DIR}/cmake/modules/SRSLTE_install_configs.sh.in
-        ${CMAKE_BINARY_DIR}/srslte_install_configs.sh
+        ${PROJECT_SOURCE_DIR}/cmake/modules/SRSLTE_install_configs.sh.in
+        ${PROJECT_BINARY_DIR}/srslte_install_configs.sh
 )
-install(PROGRAMS ${CMAKE_BINARY_DIR}/srslte_install_configs.sh DESTINATION ${RUNTIME_DIR})
+install(PROGRAMS ${PROJECT_BINARY_DIR}/srslte_install_configs.sh DESTINATION ${RUNTIME_DIR})
 
 ########################################################################
 # Compiler specific setup
@@ -381,12 +381,12 @@ endif(ENABLE_TIDY)
 # Create uninstall targets
 ########################################################################
 configure_file(
-    "${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
+    "${PROJECT_SOURCE_DIR}/cmake_uninstall.cmake.in"
+    "${PROJECT_BINARY_DIR}/cmake_uninstall.cmake"
     IMMEDIATE @ONLY)
 
 add_custom_target(uninstall
-    COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
+    COMMAND ${CMAKE_COMMAND} -P ${PROJECT_BINARY_DIR}/cmake_uninstall.cmake)
 
 ########################################################################
 # Add -fPIC property to all targets
