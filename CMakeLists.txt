@@ -416,7 +416,7 @@ foreach(_header ${headers})
         list(APPEND HEADERS_ALL ${tmp})
     endif(IS_DIRECTORY ${_header})
 endforeach()
-add_custom_target(add_srslte_headers SOURCES ${HEADERS_ALL})
+#add_custom_target(add_srslte_headers SOURCES ${HEADERS_ALL})
 
 ########################################################################
 # Add the subdirectories
