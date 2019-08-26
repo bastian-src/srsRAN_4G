@@ -30,6 +30,7 @@
 #include <strings.h>
 
 #include "srslte/phy/io/filesource.h"
+#include "srslte/phy/utils/vector.h"
 
 int srslte_filesource_init(srslte_filesource_t *q, char *filename, srslte_datatype_t type) {
   bzero(q, sizeof(srslte_filesource_t));
@@ -132,12 +133,20 @@ int srslte_filesource_read_multi(srslte_filesource_t *q, void **buffer, int nsam
       count = SRSLTE_ERROR;
       break;
     case SRSLTE_COMPLEX_FLOAT_BIN:
-      for (i = 0; i < nsamples; i++) {
-        for (j = 0; j < nof_channels; j++) {
-          count += fread(&cbuf[j][i], sizeof(cf_t), (size_t) 1, q->f);
+    {
+      cf_t *tmp = srslte_vec_malloc(nsamples * nof_channels * sizeof(cf_t));
+      count = (int)fread(tmp, sizeof(cf_t), nsamples * nof_channels, q->f);
+      if(count == nsamples * nof_channels) {
+        int x = 0;
+        for (i = 0; i < nsamples; i++) {
+          for (j = 0; j < nof_channels; j++) {
+            cbuf[j][i] = tmp[x++];
+          }
         }
       }
+      free(tmp);
       break;
+    }
     default:
       count = SRSLTE_ERROR;
       break;
