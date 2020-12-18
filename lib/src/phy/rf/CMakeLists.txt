@@ -44,6 +44,7 @@ if(RF_FOUND)
 
   add_library(srslte_rf SHARED ${SOURCES_RF})
   target_link_libraries(srslte_rf srslte_rf_utils srslte_phy)
+  target_compile_options(srslte_rf PRIVATE $<$<COMPILE_LANGUAGE:CXX>:-std=c++11>)
   
   if (UHD_FOUND)
     target_link_libraries(srslte_rf ${UHD_LIBRARIES})
